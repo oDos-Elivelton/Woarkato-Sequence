@@ -134,9 +134,10 @@ def processar_anexos(file_urls):
                 response = requests.get(url, timeout=30, verify=False)
                 response.raise_for_status()
                 content = base64.b64encode(response.content).decode('utf-8')
+                nome_arquivo = os.path.basename(url.split('?')[0])
                 
                 anexos[f"file{idx + 1}"] = {
-                    "name": f"anexo{idx + 1}.{extensao}",
+                    "name": nome_arquivo,
                     "type": tipos_arquivo.get(extensao, "application/octet-stream"),
                     "content": content
                 }
@@ -264,16 +265,3 @@ def main(input):
             }
         }
 
-
-input = {
-    "card_id": "1125069880",
-    "tipo_de_solicitacao": "Solicitação de Abertura de Conta",
-    "corpo_do_email": "Este é o corpo do e-mail.",
-    "assunto": "Assunto do E-mail",
-    "nome_da_empresa": "ELIVELTON (NÃO APAGAR) TESTE",
-    "departamento": "LEGAL",
-    "anexos": "link1, link2, link3"
-}
-if __name__ == "__main__":
-    main(input)
-    
